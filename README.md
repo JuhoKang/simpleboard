@@ -16,6 +16,9 @@ ex)
     hibernate.format_sql = true
     hibernate.hmb2ddl.auto = create
 
+You can run the app with
+mvn clean install jetty:run
+
 Notice
 -------
 * Used Joda-Time not java8 time because of some issues.
