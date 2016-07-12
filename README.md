@@ -17,7 +17,8 @@ ex)
     hibernate.hmb2ddl.auto = create
 
 You can run the app with
-mvn clean install jetty:run
+
+    mvn clean install jetty:run
 
 Notice
 -------
