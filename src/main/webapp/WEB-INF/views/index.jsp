@@ -7,6 +7,9 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Index</title>
+<!--Import Google Icon Font-->
+<link href="http://fonts.googleapis.com/icon?family=Material+Icons"
+	rel="stylesheet">
 <link
 	href="<c:url value="/resources/materialize/css/materialize.min.css" />"
 	rel="stylesheet" type="text/css" />
@@ -27,7 +30,7 @@
 	</nav>
 
 	<div class="container">
-	<br><br>
+		<br> <br>
 		<div class="row">
 			<div class="col s12 m12">
 				<div class="row">
@@ -41,30 +44,130 @@
 					<table class="z-depth-1 boarded highlight responsive-table">
 						<thead>
 							<tr>
-								<th data-field="id">Name</th>
-								<th data-field="name">Item Name</th>
-								<th data-field="price">Item Price</th>
+								<th>#</th>
+								<th>제목</th>
+								<th>작성자</th>
+								<th>작성시간</th>
 							</tr>
 						</thead>
 
 						<tbody>
-							<tr>
-								<td>Alvin</td>
-								<td>Eclair</td>
-								<td>$0.87</td>
-							</tr>
-							<tr>
-								<td>Alan</td>
-								<td>Jellybean</td>
-								<td>$3.76</td>
-							</tr>
-							<tr>
-								<td>Jonathan</td>
-								<td>Lollipop</td>
-								<td>$7.00</td>
-							</tr>
+							<c:forEach items="${posts}" var="post">
+								<tr>
+									<td>${post.id}</td>
+									<td>${post.title}</td>
+									<td>${post.writerSsoId}</td>
+									<td>${post.createTime}</td>
+								</tr>
+							</c:forEach>
 						</tbody>
 					</table>
+
+				</div>
+				<div class="row">
+					<!-- hardcoded because i am so tired of thinking. TODO-->
+					<c:if test="${param.page == null || param.page == 1}">
+						<ul class="pagination center">
+							<li class="disabled"><a href="#!"><i
+									class="material-icons">chevron_left</i></a></li>
+							<li class="active"><a href="#!">1</a></li>
+							<c:if test="${maxpage > 5}">
+								<c:forEach var="i" begin="2" end="5">
+									<li class="waves-effect"><a
+										href="<c:url value='/index?page=${i}' />"><c:out
+												value="${i}" /></a></li>
+								</c:forEach>
+							</c:if>
+							<c:if test="${maxpage <= 5}">
+								<c:forEach var="i" begin="2" end="${maxpage}">
+									<li class="waves-effect"><a
+										href="<c:url value='/index?page=${i}' />"><c:out
+												value="${i}" /></a></li>
+								</c:forEach>
+							</c:if>
+
+							<c:if test="${maxpage == 1}">
+								<li class="disabled"><a
+									href="<c:url value='/index?page=${param.page+1}'/>"><i
+										class="material-icons">chevron_right</i></a></li>
+							</c:if>
+							<c:if test="${maxpage > 1}">
+								<li class="waves-effect"><a
+									href="<c:url value='/index?page=${param.page+1}'/>"><i
+										class="material-icons">chevron_right</i></a></li>
+							</c:if>
+						</ul>
+					</c:if>
+					<c:if test="${param.page == 2}">
+						<ul class="pagination center">
+							<li class="waves-effect"><a
+								href="<c:url value='/index?page=${param.page - 1}'/>"><i
+									class="material-icons">chevron_left</i></a></li>
+							<li class="waves-effect"><a
+								href="<c:url value='/index?page=${param.page-1}'/>">1</a></li>
+							<li class="active"><a href="#!">2</a></li>
+							<c:if test="${maxpage > 5}">
+								<c:forEach var="i" begin="3" end="5">
+									<li class="waves-effect"><a
+										href="<c:url value='/index?page=${i}' />"><c:out
+												value="${i}" /></a></li>
+								</c:forEach>
+							</c:if>
+							<c:if test="${maxpage <= 5}">
+								<c:forEach var="i" begin="3" end="${maxpage}">
+									<li class="waves-effect"><a
+										href="<c:url value='/index?page=${i}' />"><c:out
+												value="${i}" /></a></li>
+								</c:forEach>
+							</c:if>
+							<c:if test="${maxpage == 2}">
+								<li class="disabled"><a
+									href="<c:url value='/index?page=${param.page+1}'/>"><i
+										class="material-icons">chevron_right</i></a></li>
+							</c:if>
+							<c:if test="${maxpage > 2}">
+								<li class="waves-effect"><a
+									href="<c:url value='/index?page=${param.page+1}'/>"><i
+										class="material-icons">chevron_right</i></a></li>
+							</c:if>
+						</ul>
+					</c:if>
+					<c:if test="${param.page > 2}">
+						<ul class="pagination center">
+							<li class="waves-effect"><a
+								href="<c:url value='/index?page=${param.page - 1}'/>"><i
+									class="material-icons">chevron_left</i></a></li>
+							<li class="waves-effect"><a
+								href="<c:url value='/index?page=${param.page-2}'/>">${param.page-2}</a></li>
+							<li class="waves-effect"><a
+								href="<c:url value='/index?page=${param.page-1}'/>">${param.page-1}</a></li>
+							<li class="active"><a href="#!">${param.page}</a></li>
+							<c:if test="${maxpage > param.page+2}">
+								<li class="waves-effect"><a
+									href="<c:url value='/index?page=${param.page+1}'/>">${param.page+1}</a></li>
+								<li class="waves-effect"><a
+									href="<c:url value='/index?page=${param.page+2}'/>">${param.page+2}</a></li>
+							</c:if>
+							<c:if test="${maxpage <= param.page+2}">
+								<c:forEach var="i" begin="${param.page+1}" end="${maxpage}">
+									<li class="waves-effect"><a
+										href="<c:url value='/index?page=${i}' />"><c:out
+												value="${i}" /></a></li>
+								</c:forEach>
+							</c:if>
+							<c:if test="${maxpage == param.page}">
+								<li class="disabled"><a
+									href="<c:url value='/index?page=${param.page+1}'/>"><i
+										class="material-icons">chevron_right</i></a></li>
+							</c:if>
+							<c:if test="${maxpage > param.page}">
+								<li class="waves-effect"><a
+									href="<c:url value='/index?page=${param.page+1}'/>"><i
+										class="material-icons">chevron_right</i></a></li>
+							</c:if>
+						</ul>
+					</c:if>
+
 				</div>
 			</div>
 		</div>
