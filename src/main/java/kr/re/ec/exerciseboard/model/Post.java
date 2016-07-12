@@ -1,9 +1,11 @@
 package kr.re.ec.exerciseboard.model;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -11,6 +13,8 @@ import org.hibernate.annotations.Type;
 import org.hibernate.validator.constraints.NotBlank;
 import org.joda.time.DateTime;
 
+@Entity
+@Table(name = "post")
 public class Post {
 
   @Id
@@ -31,7 +35,7 @@ public class Post {
   private String writerSsoId;
 
   @Column
-  @Type(type = "org.joda.time.contrib.hibernate.PersistentDateTime")
+  @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentDateTime")
   private DateTime createTime;
 
   public int getId() {
@@ -66,12 +70,12 @@ public class Post {
     this.writerSsoId = writerSsoId;
   }
 
-  public DateTime getFromDate() {
+  public DateTime getCreateTime() {
     return createTime;
   }
 
-  public void setFromDate(DateTime fromDate) {
-    this.createTime = fromDate;
+  public void setCreateTime(DateTime createTime) {
+    this.createTime = createTime;
   }
 
   @Override
@@ -85,7 +89,7 @@ public class Post {
     builder.append(content);
     builder.append(", writerSsoId=");
     builder.append(writerSsoId);
-    builder.append(", fromDate=");
+    builder.append(", createTime=");
     builder.append(createTime);
     builder.append("]");
     return builder.toString();

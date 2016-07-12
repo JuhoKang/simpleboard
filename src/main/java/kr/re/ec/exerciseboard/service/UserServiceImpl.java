@@ -29,7 +29,9 @@ public class UserServiceImpl implements UserService {
   public User findBySso(String ssoId) {
     return dao.findBySso(ssoId);
   }
-
+  
+  
+  //encode password and save.
   @Override
   public void saveUser(User user) {
     User passwordChangedUser = user;
