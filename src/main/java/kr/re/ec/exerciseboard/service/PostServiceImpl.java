@@ -49,4 +49,9 @@ public class PostServiceImpl implements PostService {
     return dao.getAllPosts();
   }
 
+  @Override
+  public Post getPostById(int id) {
+    return dao.getPostById(id);
+  }
+
 }

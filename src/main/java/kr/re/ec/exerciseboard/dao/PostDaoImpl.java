@@ -4,10 +4,17 @@ import java.util.List;
 
 import kr.re.ec.exerciseboard.model.Post;
 
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
 @Repository("postDao")
+/**
+ * Posts are basicly desc order
+ * @author MNDCERT
+ *
+ */
 public class PostDaoImpl extends AbstractDao<Integer, Post> implements PostDao {
 
   @Override
@@ -30,7 +37,7 @@ public class PostDaoImpl extends AbstractDao<Integer, Post> implements PostDao {
   @SuppressWarnings("unchecked")
   @Override
   public List<Post> getAllPosts() {
-    return createEntityCriteria().list();
+    return createEntityCriteria().addOrder(Order.desc("createTime")).list();
   }
 
   @Override
@@ -44,7 +51,13 @@ public class PostDaoImpl extends AbstractDao<Integer, Post> implements PostDao {
   @SuppressWarnings("unchecked")
   @Override
   public List<Post> getNPostsFromM(int m, int n) {
-    return createEntityCriteria().setFirstResult(m).setMaxResults(n).list();
+    return createEntityCriteria().addOrder(Order.desc("createTime")).setFirstResult(m)
+        .setMaxResults(n).list();
+  }
+
+  @Override
+  public Post getPostById(int id) {
+    return (Post) createEntityCriteria().add(Restrictions.eq("id", id)).uniqueResult();
   }
 
 }

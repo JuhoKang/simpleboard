@@ -24,6 +24,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -52,32 +53,33 @@ public class AppController {
 
     return "redirect:" + "/login";
   }
+
   @RequestMapping(value = {"/nosuchpage"}, method = RequestMethod.GET)
   public String noSuchPage(ModelMap model) {
     return "nosuchpage";
   }
 
   @RequestMapping(value = {"/index"}, method = RequestMethod.GET)
-  public String mainPage(ModelMap model,
-      @RequestParam(value = "page") Optional<Integer> page) {
+  public String mainPage(ModelMap model, @RequestParam(value = "page") Optional<Integer> page) {
     List<Post> posts;
     int maxPage = postService.getTotalPageLength();
-    
-    if(!page.isPresent()){
+
+    if (!page.isPresent()) {
       posts = postService.getPostsForPageN(1);
-    }else{
-      if(page.get() > maxPage){
+    } else {
+      if (page.get() > maxPage) {
         return "redirect:/nosuchpage";
       }
       posts = postService.getPostsForPageN(page.get());
     }
-    
-    model.addAttribute("maxpage",maxPage);
-    
+
+    model.addAttribute("maxpage", maxPage);
+
     model.addAttribute("posts", posts);
-    
+
     return "index";
   }
+
   @RequestMapping(value = {"/add"}, method = RequestMethod.GET)
   public String mainPage(ModelMap model) {
     Post post = new Post();
@@ -86,12 +88,34 @@ public class AppController {
     post.setTitle("제목제목");
     post.setWriterSsoId(getUserName());
     postService.savePost(post);
-    
+
     return "index";
   }
-  
-  
-  
+
+  @RequestMapping(value = {"/createpost"}, method = RequestMethod.GET)
+  public String createPost(ModelMap model) {
+    Post post = new Post();
+    post.setWriterSsoId(getUserName());
+    
+    model.addAttribute("post", post);
+    return "createpost";
+  }
+
+  @RequestMapping(value = {"/createpost"}, method = RequestMethod.POST)
+  public String createPostPOST(@Valid Post post, BindingResult result, ModelMap model) {
+    if (result.hasErrors()) {
+      for (FieldError e : result.getFieldErrors()) {
+        System.out.println(e.toString());
+      }
+
+      return "createpost";
+    }
+    post.setCreateTime(new DateTime());
+    postService.savePost(post);
+    return "redirect:index";
+  }
+
+
 
   @RequestMapping(value = {"/signup"}, method = RequestMethod.GET)
   public String newUser(ModelMap model) {
@@ -168,6 +192,16 @@ public class AppController {
   private String getUserName() {
     Authentication auth = SecurityContextHolder.getContext().getAuthentication();
     return auth.getName();
+  }
+
+  @RequestMapping(value = {"/post-{postId}"}, method = RequestMethod.GET)
+  public String watchPost(ModelMap model, @PathVariable int postId) {
+
+    Post post = postService.getPostById(postId);
+
+    model.addAttribute("post", post);
+
+    return "postView";
   }
 
 }

@@ -20,7 +20,7 @@
 <body>
 	<nav>
 		<div class="nav-wrapper orange">
-			<a href="#" class="brand-logo"> Example Board </a>
+			<a href="<c:url value='/index' />" class="brand-logo"> Example Board </a>
 			<!-- <ul id="nav-mobile" class="right hide-on-med-and-down">
 				<li><a href="sass.html">Sass</a></li>
 				<li><a href="badges.html">Components</a></li>
@@ -37,6 +37,9 @@
 					<nav>
 						<div class="nav-wrapper green">
 							<a href="#" class="brand-logo center">게시판</a>
+							<ul id="nav-mobile" class="right hide-on-med-and-down">
+                                <li><a href="<c:url value='/createpost' />">새 글 쓰기</a></li>
+                            </ul>
 						</div>
 					</nav>
 				</div>
@@ -53,11 +56,11 @@
 
 						<tbody>
 							<c:forEach items="${posts}" var="post">
-								<tr>
+								<tr onClick="window.location='/post-${post.id}';">
 									<td>${post.id}</td>
 									<td>${post.title}</td>
 									<td>${post.writerSsoId}</td>
-									<td>${post.createTime}</td>
+									<td>${post.createTime}</td></a>
 								</tr>
 							</c:forEach>
 						</tbody>

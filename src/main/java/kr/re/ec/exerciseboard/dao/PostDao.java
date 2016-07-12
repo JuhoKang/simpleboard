@@ -17,5 +17,7 @@ public interface PostDao {
   public int countAllPosts();
   
   public List<Post> getNPostsFromM(int m, int n);
+  
+  public Post getPostById(int id);
 
 }

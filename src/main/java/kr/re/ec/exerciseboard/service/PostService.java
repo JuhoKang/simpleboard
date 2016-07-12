@@ -17,5 +17,7 @@ public interface PostService {
   public void updatePost(Post post);
 
   public List<Post> getAllPosts();
+  
+  public Post getPostById(int id);
 
 }
