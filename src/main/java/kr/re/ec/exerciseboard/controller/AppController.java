@@ -59,6 +59,17 @@ public class AppController {
     return "nosuchpage";
   }
 
+  /**
+   * example request
+   * <p>
+   * localhost:8080/index?page=4<br>
+   * localhost:8080/index
+   * </p>
+   * 
+   * @param model
+   * @param page
+   * @return
+   */
   @RequestMapping(value = {"/index"}, method = RequestMethod.GET)
   public String mainPage(ModelMap model, @RequestParam(value = "page") Optional<Integer> page) {
     List<Post> posts;
@@ -80,6 +91,12 @@ public class AppController {
     return "index";
   }
 
+  /**
+   * adding for test
+   * 
+   * @param model
+   * @return
+   */
   @RequestMapping(value = {"/add"}, method = RequestMethod.GET)
   public String mainPage(ModelMap model) {
     Post post = new Post();
@@ -96,7 +113,7 @@ public class AppController {
   public String createPost(ModelMap model) {
     Post post = new Post();
     post.setWriterSsoId(getUserName());
-    
+
     model.addAttribute("post", post);
     return "createpost";
   }
@@ -140,13 +157,6 @@ public class AppController {
       return "signup";
     }
 
-    /*
-     * Preferred way to achieve uniqueness of field [ssn] should be implementing custom @Unique
-     * annotation and applying it on field [ssn] of Model class [Employee].
-     * 
-     * Below mentioned peace of code [if block] is to demonstrate that you can fill custom errors
-     * outside the validation framework as well while still using internationalized messages.
-     */
     if (!userService.isSsoUnique(user.getId(), user.getSsoId())) {
       FieldError ssnError = new FieldError("user", "ssoId", "이미존재하는 아이디입니다");
       result.addError(ssnError);
